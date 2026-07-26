@@ -1,8 +1,534 @@
-* {
-    margin: 0;
-    padding: 0;
+// ==========================================================================
+// MuSab — Home page styles
+// Compile: sass home.scss home.css --style=expanded
+// ==========================================================================
+
+// ---- Tokens --------------------------------------------------------------
+$bg:             #0d0d0d;
+$surface:        #161616;
+$surface-alt:    #1c1c1c;
+$glass:          rgba(255, 255, 255, 0.045);
+$glass-strong:   rgba(255, 255, 255, 0.08);
+$border:         rgba(255, 255, 255, 0.08);
+$border-strong:  rgba(255, 255, 255, 0.16);
+
+$text-primary:   #f3f1ea;
+$text-secondary: #a8a49b;
+$text-muted:     #6b6862;
+
+$accent-orange:  #ff5c39;
+$accent-violet:  #7b61ff;
+$accent-gold:    #e8b95c;
+
+$gradient-accent: linear-gradient(135deg, $accent-orange 0%, $accent-violet 100%);
+
+$font-display: 'Fraunces', Georgia, serif;
+$font-body:    'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+$font-mono:    'IBM Plex Mono', 'Courier New', monospace;
+
+$fs-hero: clamp(2.75rem, 6vw, 5.5rem);
+$fs-h2:   clamp(1.5rem, 2.4vw, 2.25rem);
+
+$max-width: 1360px;
+$gutter:    clamp(1.25rem, 4vw, 3.5rem);
+$radius-sm: 10px;
+$radius-md: 16px;
+$radius-lg: 24px;
+$radius-pill: 999px;
+
+$ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+$t-fast: 150ms;
+$t-med:  320ms;
+$t-slow: 560ms;
+
+$shadow-sm: 0 2px 10px rgba(0, 0, 0, 0.35);
+$shadow-md: 0 12px 32px rgba(0, 0, 0, 0.45);
+$shadow-lg: 0 24px 64px rgba(0, 0, 0, 0.55);
+$shadow-glow: 0 0 40px rgba(255, 92, 57, 0.18);
+
+$bp-tablet:  768px;
+$bp-desktop: 1100px;
+
+// Album-cover placeholder palette — swap for real cover images in Django;
+// classes below are just so the static markup previews with color.
+$cover-palette: (
+  1: linear-gradient(135deg, #ff5c39, #7b61ff),
+  2: linear-gradient(135deg, #e8b95c, #ff5c39),
+  3: linear-gradient(135deg, #7b61ff, #2ed9c3),
+  4: linear-gradient(135deg, #ff8a5c, #3d3aff),
+  5: linear-gradient(135deg, #e85c8a, #5c7bff),
+  6: linear-gradient(135deg, #5ce8b9, #7b61ff)
+);
+
+// ---- Mixins ----------------------------------------------------------
+@mixin glass($bg: $glass, $border-color: $border) {
+  background: $bg;
+  border: 1px solid $border-color;
+  backdrop-filter: blur(20px) saturate(140%);
+  -webkit-backdrop-filter: blur(20px) saturate(140%);
 }
 
+@mixin container {
+  width: 100%;
+  max-width: $max-width;
+  margin-inline: auto;
+  padding-inline: $gutter;
+}
+
+@mixin eyebrow {
+  font-family: $font-mono;
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: $text-muted;
+}
+
+@mixin gradient-text {
+  background: $gradient-accent;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+// ---- Reset -------------------------------------------------------------
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { color-scheme: dark; scroll-behavior: smooth; }
+
 body {
-    background-color: #ff0000;
+  background: $bg;
+  color: $text-primary;
+  font-family: $font-body;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+img { max-width: 100%; display: block; }
+a { color: inherit; text-decoration: none; }
+button { font: inherit; color: inherit; background: none; border: none; cursor: pointer; }
+input { font: inherit; color: inherit; }
+ul { list-style: none; }
+
+::selection { background: $accent-orange; color: #0d0d0d; }
+
+// ---- Type ------------------------------------------------------------
+.eyebrow { @include eyebrow; }
+
+.h-display { font-family: $font-display; font-weight: 600; letter-spacing: -0.02em; }
+.h-hero { @extend .h-display; font-size: $fs-hero; line-height: 1.02; }
+.h-2 { @extend .h-display; font-size: $fs-h2; }
+.mono { font-family: $font-mono; }
+.gradient-text { @include gradient-text; }
+.text-secondary { color: $text-secondary; }
+
+// ---- Navbar ------------------------------------------------------------
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  @include glass($bg: rgba(13, 13, 13, 0.72));
+  border-left: none; border-right: none; border-top: none;
+
+  &__inner {
+    @include container;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 72px;
+  }
+
+  &__logo {
+    font-family: $font-display;
+    font-weight: 600;
+    font-size: 1.35rem;
+    span { @include gradient-text; font-style: italic; }
+  }
+
+  &__links {
+    display: flex;
+    align-items: center;
+    gap: 2.25rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+
+    @media (max-width: $bp-desktop) { display: none; }
+  }
+
+  &__link {
+    color: $text-secondary;
+    transition: color $t-fast $ease-out;
+    &:hover, &.is-active { color: $text-primary; }
+  }
+
+  &__actions { display: flex; align-items: center; gap: 1.1rem; }
+
+  &__icon-btn {
+    width: 38px; height: 38px;
+    display: grid; place-items: center;
+    border-radius: $radius-pill;
+    color: $text-secondary;
+    transition: all $t-fast $ease-out;
+    &:hover { color: $text-primary; background: $glass-strong; }
+    svg { width: 19px; height: 19px; }
+  }
+
+  &__avatar {
+    width: 34px; height: 34px;
+    border-radius: 50%;
+    background: $gradient-accent;
+    display: grid; place-items: center;
+    font-family: $font-mono;
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: #0d0d0d;
+  }
+
+  &__burger {
+    display: none;
+    width: 38px; height: 38px;
+    align-items: center; justify-content: center;
+    color: $text-primary;
+    @media (max-width: $bp-desktop) { display: grid; }
+  }
+}
+
+.mobile-menu {
+  position: fixed;
+  inset: 72px 0 0 0;
+  background: rgba(13, 13, 13, 0.98);
+  z-index: 99;
+  display: none;
+  flex-direction: column;
+  padding: 2rem $gutter;
+  gap: 1.75rem;
+
+  &.is-open { display: flex; }
+
+  a { font-family: $font-display; font-size: 1.75rem; color: $text-secondary; }
+  a.is-active, a:hover { color: $text-primary; }
+}
+
+// ---- Buttons -------------------------------------------------------------
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.85rem 1.6rem;
+  border-radius: $radius-pill;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform $t-fast $ease-out, box-shadow $t-fast $ease-out, background $t-fast $ease-out;
+
+  &--primary {
+    background: $gradient-accent;
+    color: #0d0d0d;
+    box-shadow: $shadow-glow;
+    &:hover { box-shadow: 0 0 52px rgba(255, 92, 57, 0.3); transform: translateY(-2px); }
+  }
+
+  &--ghost {
+    background: $glass;
+    border: 1px solid $border;
+    color: $text-primary;
+    &:hover { background: $glass-strong; border-color: $border-strong; }
+  }
+}
+
+// ---- Search bar (display only — form posts/gets to the backend) -------
+.search-bar {
+  @include glass;
+  border-radius: $radius-pill;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem 0.5rem 0.5rem 1.5rem;
+  transition: border-color $t-med $ease-out, box-shadow $t-med $ease-out;
+
+  &:focus-within { border-color: $accent-orange; box-shadow: 0 0 0 4px rgba(255, 92, 57, 0.12); }
+
+  svg { width: 18px; height: 18px; color: $text-muted; flex-shrink: 0; }
+
+  input {
+    flex: 1;
+    background: none;
+    border: none;
+    outline: none;
+    color: $text-primary;
+    padding-block: 0.65rem;
+    &::placeholder { color: $text-muted; }
+  }
+
+  button { flex-shrink: 0; }
+}
+
+// ---- Album card ------------------------------------------------------
+.album-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  transition: transform $t-med $ease-out;
+
+  &:hover { transform: translateY(-6px); }
+
+  &__cover-wrap {
+    position: relative;
+    aspect-ratio: 1 / 1;
+    border-radius: $radius-md;
+    overflow: hidden;
+    border: 1px solid $border;
+    box-shadow: $shadow-sm;
+    transition: box-shadow $t-med $ease-out, border-color $t-med $ease-out;
+  }
+
+  &:hover &__cover-wrap { box-shadow: $shadow-lg; border-color: $border-strong; }
+
+  &__cover {
+    width: 100%; height: 100%;
+    // Real <img> covers will replace this background once the backend
+    // supplies artwork URLs — this gradient is a placeholder only.
+    transition: transform $t-slow $ease-out;
+  }
+
+  &:hover &__cover { transform: scale(1.07); }
+
+  @each $i, $grad in $cover-palette {
+    &--#{$i} .album-card__cover { background: $grad; }
+  }
+
+  &__overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(180deg, rgba(0,0,0,0) 40%, rgba(0,0,0,0.75) 100%);
+    opacity: 0;
+    transition: opacity $t-med $ease-out;
+    display: flex;
+    align-items: flex-end;
+    padding: 0.9rem;
+  }
+
+  &:hover &__overlay { opacity: 1; }
+
+  &__play {
+    width: 42px; height: 42px;
+    border-radius: 50%;
+    background: $gradient-accent;
+    display: grid; place-items: center;
+    transform: scale(0.7) translateY(6px);
+    transition: transform $t-med $ease-out;
+    box-shadow: $shadow-glow;
+    svg { width: 16px; height: 16px; fill: #0d0d0d; margin-left: 2px; }
+  }
+
+  &:hover &__play { transform: scale(1) translateY(0); }
+
+  &__title { font-weight: 600; font-size: 0.98rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  &__artist { color: $text-secondary; font-size: 0.875rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  &__meta { display: flex; align-items: center; gap: 0.5rem; margin-top: 0.35rem; font-family: $font-mono; font-size: 0.75rem; color: $text-muted; }
+  &__dot { width: 3px; height: 3px; border-radius: 50%; background: $text-muted; }
+}
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+  gap: 1.75rem 1.5rem;
+
+  @media (max-width: 480px) { grid-template-columns: repeat(2, 1fr); gap: 1.25rem 0.9rem; }
+}
+
+.card-row {
+  display: flex;
+  gap: 1.5rem;
+  overflow-x: auto;
+  padding-bottom: 0.5rem;
+  scroll-snap-type: x proximity;
+
+  .album-card, .artist-card { flex: 0 0 190px; scroll-snap-align: start; }
+}
+
+// ---- Artist card -----------------------------------------------------
+.artist-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.9rem;
+  text-align: center;
+
+  &__photo-wrap {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 1px solid $border;
+    transition: border-color $t-med $ease-out, box-shadow $t-med $ease-out, transform $t-med $ease-out;
+  }
+
+  &:hover &__photo-wrap { transform: translateY(-6px); border-color: $accent-orange; box-shadow: $shadow-glow; }
+
+  &__photo {
+    width: 100%; height: 100%;
+    // placeholder radial tint — swap for a real <img> from the backend
+    transition: transform $t-slow $ease-out;
+  }
+
+  &:hover &__photo { transform: scale(1.08); }
+
+  @each $i, $grad in $cover-palette {
+    &--#{$i} .artist-card__photo { background: $grad; }
+  }
+
+  &__name { font-weight: 600; font-size: 0.95rem; }
+  &__genre { color: $text-muted; font-family: $font-mono; font-size: 0.75rem; }
+}
+
+// ---- Hero / sections ---------------------------------------------------
+.hero {
+  position: relative;
+  padding: clamp(4rem, 10vh, 7rem) 0 5rem;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: -20%; left: 50%;
+    width: 900px; height: 900px;
+    transform: translateX(-50%);
+    background: radial-gradient(circle, rgba(123, 97, 255, 0.16) 0%, rgba(255, 92, 57, 0.08) 40%, transparent 70%);
+    pointer-events: none;
+  }
+
+  &__inner {
+    @include container;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.75rem;
+  }
+
+  &__eyebrow { display: flex; align-items: center; gap: 0.6rem; @include eyebrow; }
+  &__eyebrow .dot { width: 6px; height: 6px; border-radius: 50%; background: $accent-orange; box-shadow: 0 0 10px $accent-orange; }
+
+  &__title { max-width: 15ch; }
+  &__title em { @include gradient-text; font-style: italic; }
+  &__subtitle { max-width: 46ch; font-size: 1.1rem; color: $text-secondary; }
+  &__actions { display: flex; gap: 1rem; margin-top: 0.5rem; flex-wrap: wrap; }
+  &__search-wrap { width: 100%; max-width: 560px; margin-top: 1rem; }
+}
+
+.stat-strip {
+  display: flex;
+  gap: 2.5rem;
+  flex-wrap: wrap;
+  margin-top: 2.5rem;
+
+  &__item { display: flex; flex-direction: column; gap: 0.25rem; }
+  &__value { font-family: $font-display; font-size: 2rem; font-weight: 600; }
+  &__label { @include eyebrow; }
+}
+
+.section {
+  padding: 4.5rem 0;
+  &__inner { @include container; }
+
+  &__head {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  &__title { display: flex; flex-direction: column; gap: 0.4rem; }
+  &__link { font-size: 0.875rem; color: $text-secondary; display: flex; align-items: center; gap: 0.35rem; transition: color $t-fast; &:hover { color: $text-primary; } }
+}
+
+.section--tinted { background: linear-gradient(180deg, transparent, rgba(255,255,255,0.02), transparent); }
+
+// ---- Timeline preview (static — real data/heights come from Django) --
+.timeline-preview {
+  @include glass;
+  border-radius: $radius-lg;
+  padding: 2.5rem clamp(1.25rem, 4vw, 2.75rem) 2rem;
+}
+
+.waveform {
+  &__track {
+    display: flex;
+    align-items: flex-end;
+    gap: 3px;
+    height: 88px;
+    overflow-x: auto;
+    padding: 0 2px;
+
+    &::-webkit-scrollbar { display: none; }
+    scrollbar-width: none;
+  }
+
+  &__bar {
+    flex: 0 0 6px;
+    min-width: 6px;
+    border-radius: 3px 3px 0 0;
+    background: $surface-alt;
+    transition: background $t-fast $ease-out;
+
+    &:hover { background: $border-strong; }
+    &.is-active { background: $gradient-accent; box-shadow: 0 0 18px rgba(255, 92, 57, 0.45); }
+  }
+
+  &__labels {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 0.9rem;
+    font-family: $font-mono;
+    font-size: 0.75rem;
+    color: $text-muted;
+  }
+}
+
+// ---- Footer -------------------------------------------------------------
+.footer {
+  border-top: 1px solid $border;
+  margin-top: 6rem;
+  padding: 3.5rem 0 2.25rem;
+
+  &__inner { @include container; }
+
+  &__top {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 2.5rem;
+    padding-bottom: 2.5rem;
+  }
+
+  &__logo { font-family: $font-display; font-size: 1.5rem; span { @include gradient-text; font-style: italic; } }
+  &__tag { color: $text-muted; font-size: 0.875rem; max-width: 280px; margin-top: 0.75rem; }
+  &__cols { display: flex; gap: 3.5rem; flex-wrap: wrap; }
+  &__col h4 { @include eyebrow; margin-bottom: 1rem; }
+  &__col a { display: block; color: $text-secondary; font-size: 0.875rem; padding-block: 0.4rem; transition: color $t-fast; &:hover { color: $text-primary; } }
+
+  &__bottom {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 1.75rem;
+    border-top: 1px solid $border;
+    color: $text-muted;
+    font-size: 0.75rem;
+    font-family: $font-mono;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+}
+
+// ---- Scroll reveal (toggled by the tiny script in home.html) -----------
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity $t-slow $ease-out, transform $t-slow $ease-out;
+  &.is-visible { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal { transition: none; opacity: 1; transform: none; }
 }
