@@ -14,7 +14,8 @@ class Command(BaseCommand):
                 artist=row['artist'],
                 album=row['album'],
                 genre=row['genre'],
-                rating=row['rating']
+                rating=row['rating'],
+                cover=row['cover']
             )
 
         self.stdout.write(

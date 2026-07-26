@@ -1,6 +1,6 @@
-year,artist,album,genre,rating
-1991,Nirvana,Nevermind,Grunge,9.5
-1991,Metallica,Black Album,Metal,9.2
-1991,Pearl Jam,Ten,Rock,8.9
-1970,Black Sabbath,Paranoid,Heavy Metal,9.4
-1971,Led Zeppelin,IV,Rock,9.6
+year,artist,album,genre,rating,cover
+1991,Nirvana,Nevermind,Grunge,9.5,covers/NirvanaNevermindalbumcover.jpg
+1991,Metallica,Black Album,Metal,9.2,covers/Metallica - Black Album.jpg
+1991,Pearl Jam,Ten,Rock,8.9,covers/Pearl Jam - Ten.jpg
+1970,Black Sabbath,Paranoid,Heavy Metal,9.4,covers/Paranoid.jpg
+1971,Led Zeppelin,IV,Rock,9.6,covers/Led Zeppelin - IV.jpg
