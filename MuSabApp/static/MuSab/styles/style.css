@@ -623,18 +623,11 @@ ul {
   align-items: flex-end;
   gap: 3px;
   height: 88px;
-  overflow-x: auto;
   padding: 0 2px;
 }
-.waveform__track::-webkit-scrollbar {
-  display: none;
-}
-.waveform__track {
-  scrollbar-width: none;
-}
 .waveform__bar {
-  flex: 0 0 6px;
-  min-width: 6px;
+  flex: 1 1 0;
+  min-width: 0;
   border-radius: 3px 3px 0 0;
   background: #1c1c1c;
   transition: background 150ms cubic-bezier(0.16, 1, 0.3, 1);

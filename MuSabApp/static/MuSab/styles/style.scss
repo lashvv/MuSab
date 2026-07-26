@@ -454,26 +454,21 @@ ul { list-style: none; }
 
 .waveform {
   &__track {
-    display: flex;
-    align-items: flex-end;
-    gap: 3px;
-    height: 88px;
-    overflow-x: auto;
-    padding: 0 2px;
-
-    &::-webkit-scrollbar { display: none; }
-    scrollbar-width: none;
-  }
-
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  height: 88px;
+  padding: 0 2px;
+  // remove overflow-x: auto — you want them to fill the container, not scroll
+  }  
   &__bar {
-    flex: 0 0 6px;
-    min-width: 6px;
-    border-radius: 3px 3px 0 0;
-    background: $surface-alt;
-    transition: background $t-fast $ease-out;
-
-    &:hover { background: $border-strong; }
-    &.is-active { background: $gradient-accent; box-shadow: 0 0 18px rgba(255, 92, 57, 0.45); }
+  flex: 1 1 0;      // grow/shrink equally to fill the row
+  min-width: 0;     // allow shrinking below content size
+  border-radius: 3px 3px 0 0;
+  background: $surface-alt;
+  transition: background $t-fast $ease-out;  
+  &:hover { background: $border-strong; }
+  &.is-active { background: $gradient-accent; box-shadow: 0 0 18px rgba(255, 92, 57, 0.45); }
   }
 
   &__labels {

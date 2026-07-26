@@ -15,12 +15,11 @@
 
 <header class="navbar">
   <div class="navbar__inner">
-    <a href="index.html" class="navbar__logo">Mu<span>Sab</span></a>
+    <a href="{% url 'index' %}" class="navbar__logo">Mu<span>Sab</span></a>
     <nav class="navbar__links">
-      <a href="index.html" class="navbar__link is-active">Home</a>
-      <a href="timeline.html" class="navbar__link">Timeline</a>
-      <a href="discover.html" class="navbar__link">Discover</a>
-      <a href="discover.html" class="navbar__link">Artists</a>
+      <a href="{% url 'index' %}" class="navbar__link is-active">Home</a>
+      <a href="{% url 'timeline' %}" class="navbar__link">Timeline</a>
+      <a href="{% url 'discover' %}" class="navbar__link">Discover</a>
     </nav>
     <div class="navbar__actions">
       <button class="navbar__icon-btn" aria-label="Search">
@@ -35,10 +34,9 @@
 </header>
 
 <nav class="mobile-menu" data-mobile-menu>
-  <a href="index.html" class="is-active">Home</a>
-  <a href="timeline.html">Timeline</a>
-  <a href="discover.html">Discover</a>
-  <a href="discover.html">Artists</a>
+  <a href="{% url 'index' %}" class="is-active">Home</a>
+  <a href="{% url 'timeline' %}">Timeline</a>
+  <a href="{% url 'discover' %}">Discover</a>
 </nav>
 
 <main>
@@ -61,11 +59,11 @@
       </form>
 
       <div class="hero__actions reveal">
-        <a href="timeline.html" class="btn btn--primary">
+        <a href="{% url 'timeline' %}" class="btn btn--primary">
           Start exploring
           <svg width="14" height="14" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 10h12M11 5l5 5-5 5"/></svg>
         </a>
-        <a href="discover.html" class="btn btn--ghost">Browse by genre</a>
+        <a href="{% url 'discover' %}" class="btn btn--ghost">Browse by genre</a>
       </div>
 
       <div class="stat-strip reveal">
@@ -85,20 +83,20 @@
           <span class="eyebrow">Highest rated</span>
           <h2 class="h-2">Featured albums</h2>
         </div>
-        <a href="discover.html" class="section__link">
+        <a href="{% url 'discover' %}" class="section__link">
           Browse all
           <svg width="13" height="13" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 10h12M11 5l5 5-5 5"/></svg>
         </a>
       </div>
     <div class="card-grid reveal">
         {% for album in albums %}
-            <a class="album-card album-card--1" href="album.html">
+            <a class="album-card album-card--1" href="{% url 'album' album.id %}">
             <div class="album-card__cover-wrap">
                 <img src="{{ MEDIA_URL }}{{ album.cover }}" class="album-card__cover">
             </div>
             <div class="album-card__title">{{ album.album }}</div>
             <div class="album-card__artist">{{ album.artist }}</div>
-            <div class="album-card__meta"><span>{{ album.release_year }}</span><span class="album-card__dot"></span><span>{{ album.genre }}</span></div>
+            <div class="album-card__meta"><span>{{ album.year }}</span><span class="album-card__dot"></span><span>{{ album.genre }}</span></div>
             </a>
         {% endfor %}
       </div>
@@ -113,19 +111,19 @@
           <span class="eyebrow">Shaping the catalog</span>
           <h2 class="h-2">Popular artists</h2>
         </div>
-        <a href="discover.html" class="section__link">
+        <a href="{% url 'discover' %}" class="section__link">
           See all artists
           <svg width="13" height="13" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 10h12M11 5l5 5-5 5"/></svg>
         </a>
       </div>
 
       <div class="card-row reveal">
-        <a class="artist-card" href="artist.html"><div class="artist-card__photo-wrap"><div class="artist-card__photo artist-card--1"></div></div><div class="artist-card__name">Miles Davis</div><div class="artist-card__genre">Jazz</div></a>
-        <a class="artist-card" href="artist.html"><div class="artist-card__photo-wrap"><div class="artist-card__photo artist-card--2"></div></div><div class="artist-card__name">The Kinetics</div><div class="artist-card__genre">Rock · Punk</div></a>
-        <a class="artist-card" href="artist.html"><div class="artist-card__photo-wrap"><div class="artist-card__photo artist-card--3"></div></div><div class="artist-card__name">Nina Hollow</div><div class="artist-card__genre">Soul · R&amp;B</div></a>
-        <a class="artist-card" href="artist.html"><div class="artist-card__photo-wrap"><div class="artist-card__photo artist-card--4"></div></div><div class="artist-card__name">Static Current</div><div class="artist-card__genre">Electronic</div></a>
-        <a class="artist-card" href="artist.html"><div class="artist-card__photo-wrap"><div class="artist-card__photo artist-card--5"></div></div><div class="artist-card__name">MC Lyricist</div><div class="artist-card__genre">Hip-Hop</div></a>
-        <a class="artist-card" href="artist.html"><div class="artist-card__photo-wrap"><div class="artist-card__photo artist-card--6"></div></div><div class="artist-card__name">The Orbiters</div><div class="artist-card__genre">Pop · Rock</div></a>
+        <a class="artist-card"><div class="artist-card__photo-wrap"><div class="artist-card__photo artist-card--1"></div></div><div class="artist-card__name">Miles Davis</div><div class="artist-card__genre">Jazz</div></a>
+        <a class="artist-card"><div class="artist-card__photo-wrap"><div class="artist-card__photo artist-card--2"></div></div><div class="artist-card__name">The Kinetics</div><div class="artist-card__genre">Rock · Punk</div></a>
+        <a class="artist-card"><div class="artist-card__photo-wrap"><div class="artist-card__photo artist-card--3"></div></div><div class="artist-card__name">Nina Hollow</div><div class="artist-card__genre">Soul · R&amp;B</div></a>
+        <a class="artist-card"><div class="artist-card__photo-wrap"><div class="artist-card__photo artist-card--4"></div></div><div class="artist-card__name">Static Current</div><div class="artist-card__genre">Electronic</div></a>
+        <a class="artist-card"><div class="artist-card__photo-wrap"><div class="artist-card__photo artist-card--5"></div></div><div class="artist-card__name">MC Lyricist</div><div class="artist-card__genre">Hip-Hop</div></a>
+        <a class="artist-card"><div class="artist-card__photo-wrap"><div class="artist-card__photo artist-card--6"></div></div><div class="artist-card__name">The Orbiters</div><div class="artist-card__genre">Pop · Rock</div></a>
       </div>
     </div>
   </section>
@@ -140,7 +138,7 @@
           <span class="eyebrow">1950 → present</span>
           <h2 class="h-2">Every year, at a glance</h2>
         </div>
-        <a href="timeline.html" class="section__link">
+        <a href="{% url 'timeline' %}" class="section__link">
           Open full timeline
           <svg width="13" height="13" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 10h12M11 5l5 5-5 5"/></svg>
         </a>
@@ -153,83 +151,83 @@
         </p>
         <div class="waveform">
           <div class="waveform__track">
-            <a class="waveform__bar" href="timeline.html?year=1950" style="height:41.8%" aria-label="1950"></a>
-            <a class="waveform__bar" href="timeline.html?year=1951" style="height:27.0%" aria-label="1951"></a>
-            <a class="waveform__bar" href="timeline.html?year=1952" style="height:70.0%" aria-label="1952"></a>
-            <a class="waveform__bar" href="timeline.html?year=1953" style="height:20.2%" aria-label="1953"></a>
-            <a class="waveform__bar" href="timeline.html?year=1954" style="height:60.1%" aria-label="1954"></a>
-            <a class="waveform__bar" href="timeline.html?year=1955" style="height:45.4%" aria-label="1955"></a>
-            <a class="waveform__bar" href="timeline.html?year=1956" style="height:19.0%" aria-label="1956"></a>
-            <a class="waveform__bar" href="timeline.html?year=1957" style="height:57.6%" aria-label="1957"></a>
-            <a class="waveform__bar" href="timeline.html?year=1958" style="height:17.2%" aria-label="1958"></a>
-            <a class="waveform__bar" href="timeline.html?year=1959" style="height:51.3%" aria-label="1959"></a>
-            <a class="waveform__bar" href="timeline.html?year=1960" style="height:20.0%" aria-label="1960"></a>
-            <a class="waveform__bar" href="timeline.html?year=1961" style="height:21.8%" aria-label="1961"></a>
-            <a class="waveform__bar" href="timeline.html?year=1962" style="height:50.5%" aria-label="1962"></a>
-            <a class="waveform__bar" href="timeline.html?year=1963" style="height:85.1%" aria-label="1963"></a>
-            <a class="waveform__bar" href="timeline.html?year=1964" style="height:24.6%" aria-label="1964"></a>
-            <a class="waveform__bar" href="timeline.html?year=1965" style="height:33.2%" aria-label="1965"></a>
-            <a class="waveform__bar" href="timeline.html?year=1966" style="height:68.0%" aria-label="1966"></a>
-            <a class="waveform__bar" href="timeline.html?year=1967" style="height:95.5%" aria-label="1967"></a>
-            <a class="waveform__bar" href="timeline.html?year=1968" style="height:63.6%" aria-label="1968"></a>
-            <a class="waveform__bar" href="timeline.html?year=1969" style="height:48.1%" aria-label="1969"></a>
-            <a class="waveform__bar" href="timeline.html?year=1970" style="height:98.0%" aria-label="1970"></a>
-            <a class="waveform__bar" href="timeline.html?year=1971" style="height:18.0%" aria-label="1971"></a>
-            <a class="waveform__bar" href="timeline.html?year=1972" style="height:87.8%" aria-label="1972"></a>
-            <a class="waveform__bar" href="timeline.html?year=1973" style="height:38.9%" aria-label="1973"></a>
-            <a class="waveform__bar" href="timeline.html?year=1974" style="height:26.4%" aria-label="1974"></a>
-            <a class="waveform__bar" href="timeline.html?year=1975" style="height:24.1%" aria-label="1975"></a>
-            <a class="waveform__bar" href="timeline.html?year=1976" style="height:40.5%" aria-label="1976"></a>
-            <a class="waveform__bar" href="timeline.html?year=1977" style="height:84.2%" aria-label="1977"></a>
-            <a class="waveform__bar" href="timeline.html?year=1978" style="height:29.5%" aria-label="1978"></a>
-            <a class="waveform__bar" href="timeline.html?year=1979" style="height:64.0%" aria-label="1979"></a>
-            <a class="waveform__bar" href="timeline.html?year=1980" style="height:68.9%" aria-label="1980"></a>
-            <a class="waveform__bar" href="timeline.html?year=1981" style="height:46.0%" aria-label="1981"></a>
-            <a class="waveform__bar" href="timeline.html?year=1982" style="height:61.1%" aria-label="1982"></a>
-            <a class="waveform__bar" href="timeline.html?year=1983" style="height:19.4%" aria-label="1983"></a>
-            <a class="waveform__bar" href="timeline.html?year=1984" style="height:19.1%" aria-label="1984"></a>
-            <a class="waveform__bar" href="timeline.html?year=1985" style="height:31.7%" aria-label="1985"></a>
-            <a class="waveform__bar" href="timeline.html?year=1986" style="height:72.5%" aria-label="1986"></a>
-            <a class="waveform__bar" href="timeline.html?year=1987" style="height:50.8%" aria-label="1987"></a>
-            <a class="waveform__bar" href="timeline.html?year=1988" style="height:41.0%" aria-label="1988"></a>
-            <a class="waveform__bar" href="timeline.html?year=1989" style="height:64.4%" aria-label="1989"></a>
-            <a class="waveform__bar" href="timeline.html?year=1990" style="height:53.0%" aria-label="1990"></a>
-            <a class="waveform__bar" href="timeline.html?year=1991" style="height:39.8%" aria-label="1991"></a>
-            <a class="waveform__bar" href="timeline.html?year=1992" style="height:82.3%" aria-label="1992"></a>
-            <a class="waveform__bar" href="timeline.html?year=1993" style="height:74.1%" aria-label="1993"></a>
-            <a class="waveform__bar" href="timeline.html?year=1994" style="height:35.0%" aria-label="1994"></a>
-            <a class="waveform__bar" href="timeline.html?year=1995" style="height:63.4%" aria-label="1995"></a>
-            <a class="waveform__bar" href="timeline.html?year=1996" style="height:59.2%" aria-label="1996"></a>
-            <a class="waveform__bar" href="timeline.html?year=1997" style="height:89.3%" aria-label="1997"></a>
-            <a class="waveform__bar" href="timeline.html?year=1998" style="height:76.7%" aria-label="1998"></a>
-            <a class="waveform__bar" href="timeline.html?year=1999" style="height:38.8%" aria-label="1999"></a>
-            <a class="waveform__bar" href="timeline.html?year=2000" style="height:98.3%" aria-label="2000"></a>
-            <a class="waveform__bar" href="timeline.html?year=2001" style="height:24.2%" aria-label="2001"></a>
-            <a class="waveform__bar" href="timeline.html?year=2002" style="height:50.0%" aria-label="2002"></a>
-            <a class="waveform__bar" href="timeline.html?year=2003" style="height:79.1%" aria-label="2003"></a>
-            <a class="waveform__bar" href="timeline.html?year=2004" style="height:27.1%" aria-label="2004"></a>
-            <a class="waveform__bar" href="timeline.html?year=2005" style="height:56.1%" aria-label="2005"></a>
-            <a class="waveform__bar" href="timeline.html?year=2006" style="height:17.4%" aria-label="2006"></a>
-            <a class="waveform__bar" href="timeline.html?year=2007" style="height:71.5%" aria-label="2007"></a>
-            <a class="waveform__bar" href="timeline.html?year=2008" style="height:79.8%" aria-label="2008"></a>
-            <a class="waveform__bar" href="timeline.html?year=2009" style="height:63.3%" aria-label="2009"></a>
-            <a class="waveform__bar" href="timeline.html?year=2010" style="height:89.3%" aria-label="2010"></a>
-            <a class="waveform__bar" href="timeline.html?year=2011" style="height:41.0%" aria-label="2011"></a>
-            <a class="waveform__bar" href="timeline.html?year=2012" style="height:73.8%" aria-label="2012"></a>
-            <a class="waveform__bar" href="timeline.html?year=2013" style="height:65.1%" aria-label="2013"></a>
-            <a class="waveform__bar" href="timeline.html?year=2014" style="height:63.9%" aria-label="2014"></a>
-            <a class="waveform__bar" href="timeline.html?year=2015" style="height:53.2%" aria-label="2015"></a>
-            <a class="waveform__bar is-active" href="timeline.html?year=2016" style="height:86.2%" aria-label="2016"></a>
-            <a class="waveform__bar" href="timeline.html?year=2017" style="height:95.2%" aria-label="2017"></a>
-            <a class="waveform__bar" href="timeline.html?year=2018" style="height:54.8%" aria-label="2018"></a>
-            <a class="waveform__bar" href="timeline.html?year=2019" style="height:71.1%" aria-label="2019"></a>
-            <a class="waveform__bar" href="timeline.html?year=2020" style="height:19.2%" aria-label="2020"></a>
-            <a class="waveform__bar" href="timeline.html?year=2021" style="height:74.3%" aria-label="2021"></a>
-            <a class="waveform__bar" href="timeline.html?year=2022" style="height:69.7%" aria-label="2022"></a>
-            <a class="waveform__bar" href="timeline.html?year=2023" style="height:99.4%" aria-label="2023"></a>
-            <a class="waveform__bar" href="timeline.html?year=2024" style="height:84.7%" aria-label="2024"></a>
-            <a class="waveform__bar" href="timeline.html?year=2025" style="height:38.5%" aria-label="2025"></a>
-            <a class="waveform__bar" href="timeline.html?year=2026" style="height:47.2%" aria-label="2026"></a>
+            <a class="waveform__bar" href="{% url 'timeline' %}?year=1950" style="height:41.8%" aria-label="1950"></a>
+            <a class="waveform__bar" href="{% url 'timeline' %}?year=1951" style="height:27.0%" aria-label="1951"></a>
+            <a class="waveform__bar" href="{% url 'timeline' %}?year=1952" style="height:70.0%" aria-label="1952"></a>
+            <a class="waveform__bar" href="{% url 'timeline' %}?year=1953" style="height:20.2%" aria-label="1953"></a>
+            <a class="waveform__bar" href="{% url 'timeline' %}?year=1954" style="height:60.1%" aria-label="1954"></a>
+            <a class="waveform__bar" href="{% url 'timeline' %}?year=1955" style="height:45.4%" aria-label="1955"></a>
+            <a class="waveform__bar" href="{% url 'timeline' %}?year=1956" style="height:19.0%" aria-label="1956"></a>
+            <a class="waveform__bar" href="{% url 'timeline' %}?year=1957" style="height:57.6%" aria-label="1957"></a>
+            <a class="waveform__bar" href="{% url 'timeline' %}?year=1958" style="height:17.2%" aria-label="1958"></a>
+            <a class="waveform__bar" href="{% url 'timeline' %}?year=1959" style="height:51.3%" aria-label="1959"></a>
+            <a class="waveform__bar" href="{% url 'timeline' %}?year=1960" style="height:20.0%" aria-label="1960"></a>
+            <a class="waveform__bar" href="{% url 'timeline' %}?year=1961" style="height:21.8%" aria-label="1961"></a>
+            <a class="waveform__bar" href="{% url 'timeline' %}?year=1962" style="height:50.5%" aria-label="1962"></a>
+            <a class="waveform__bar" href="{% url 'timeline' %}?year=1963" style="height:85.1%" aria-label="1963"></a>
+            <a class="waveform__bar" href="{% url 'timeline' %}?year=1964" style="height:24.6%" aria-label="1964"></a>
+            <a class="waveform__bar" href="{% url 'timeline' %}?year=1965" style="height:33.2%" aria-label="1965"></a>
+            <a class="waveform__bar" href="{% url 'timeline' %}?year=1966" style="height:68.0%" aria-label="1966"></a>
+            <a class="waveform__bar" href="{% url 'timeline' %}?year=1967" style="height:95.5%" aria-label="1967"></a>
+            <a class="waveform__bar" href="{% url 'timeline' %}?year=1968" style="height:63.6%" aria-label="1968"></a>
+            <a class="waveform__bar" href="{% url 'timeline' %}?year=1969" style="height:48.1%" aria-label="1969"></a>
+            <a class="waveform__bar" href="{% url 'timeline' %}?year=1970" style="height:98.0%" aria-label="1970"></a>
+            <a class="waveform__bar" href="{% url 'timeline' %}?year=1971" style="height:18.0%" aria-label="1971"></a>
+            <a class="waveform__bar" href="{% url 'timeline' %}?year=1972" style="height:87.8%" aria-label="1972"></a>
+            <a class="waveform__bar" href="{% url 'timeline' %}?year=1973" style="height:38.9%" aria-label="1973"></a>
+            <a class="waveform__bar" href="{% url 'timeline' %}?year=1974" style="height:26.4%" aria-label="1974"></a>
+            <a class="waveform__bar" href="{% url 'timeline' %}?year=1975" style="height:24.1%" aria-label="1975"></a>
+            <a class="waveform__bar" href="{% url 'timeline' %}?year=1976" style="height:40.5%" aria-label="1976"></a>
+            <a class="waveform__bar" href="{% url 'timeline' %}?year=1977" style="height:84.2%" aria-label="1977"></a>
+            <a class="waveform__bar" href="{% url 'timeline' %}?year=1978" style="height:29.5%" aria-label="1978"></a>
+            <a class="waveform__bar" href="{% url 'timeline' %}?year=1979" style="height:64.0%" aria-label="1979"></a>
+            <a class="waveform__bar" href="{% url 'timeline' %}?year=1980" style="height:68.9%" aria-label="1980"></a>
+            <a class="waveform__bar" href="{% url 'timeline' %}?year=1981" style="height:46.0%" aria-label="1981"></a>
+            <a class="waveform__bar" href="{% url 'timeline' %}?year=1982" style="height:61.1%" aria-label="1982"></a>
+            <a class="waveform__bar" href="{% url 'timeline' %}?year=1983" style="height:19.4%" aria-label="1983"></a>
+            <a class="waveform__bar" href="{% url 'timeline' %}?year=1984" style="height:19.1%" aria-label="1984"></a>
+            <a class="waveform__bar" href="{% url 'timeline' %}?year=1985" style="height:31.7%" aria-label="1985"></a>
+            <a class="waveform__bar" href="{% url 'timeline' %}?year=1986" style="height:72.5%" aria-label="1986"></a>
+            <a class="waveform__bar" href="{% url 'timeline' %}?year=1987" style="height:50.8%" aria-label="1987"></a>
+            <a class="waveform__bar" href="{% url 'timeline' %}?year=1988" style="height:41.0%" aria-label="1988"></a>
+            <a class="waveform__bar" href="{% url 'timeline' %}?year=1989" style="height:64.4%" aria-label="1989"></a>
+            <a class="waveform__bar" href="{% url 'timeline' %}?year=1990" style="height:53.0%" aria-label="1990"></a>
+            <a class="waveform__bar" href="{% url 'timeline' %}?year=1991" style="height:39.8%" aria-label="1991"></a>
+            <a class="waveform__bar" href="{% url 'timeline' %}?year=1992" style="height:82.3%" aria-label="1992"></a>
+            <a class="waveform__bar" href="{% url 'timeline' %}?year=1993" style="height:74.1%" aria-label="1993"></a>
+            <a class="waveform__bar" href="{% url 'timeline' %}?year=1994" style="height:35.0%" aria-label="1994"></a>
+            <a class="waveform__bar" href="{% url 'timeline' %}?year=1995" style="height:63.4%" aria-label="1995"></a>
+            <a class="waveform__bar" href="{% url 'timeline' %}?year=1996" style="height:59.2%" aria-label="1996"></a>
+            <a class="waveform__bar" href="{% url 'timeline' %}?year=1997" style="height:89.3%" aria-label="1997"></a>
+            <a class="waveform__bar" href="{% url 'timeline' %}?year=1998" style="height:76.7%" aria-label="1998"></a>
+            <a class="waveform__bar" href="{% url 'timeline' %}?year=1999" style="height:38.8%" aria-label="1999"></a>
+            <a class="waveform__bar" href="{% url 'timeline' %}?year=2000" style="height:98.3%" aria-label="2000"></a>
+            <a class="waveform__bar" href="{% url 'timeline' %}?year=2001" style="height:24.2%" aria-label="2001"></a>
+            <a class="waveform__bar" href="{% url 'timeline' %}?year=2002" style="height:50.0%" aria-label="2002"></a>
+            <a class="waveform__bar" href="{% url 'timeline' %}?year=2003" style="height:79.1%" aria-label="2003"></a>
+            <a class="waveform__bar" href="{% url 'timeline' %}?year=2004" style="height:27.1%" aria-label="2004"></a>
+            <a class="waveform__bar" href="{% url 'timeline' %}?year=2005" style="height:56.1%" aria-label="2005"></a>
+            <a class="waveform__bar" href="{% url 'timeline' %}?year=2006" style="height:17.4%" aria-label="2006"></a>
+            <a class="waveform__bar" href="{% url 'timeline' %}?year=2007" style="height:71.5%" aria-label="2007"></a>
+            <a class="waveform__bar" href="{% url 'timeline' %}?year=2008" style="height:79.8%" aria-label="2008"></a>
+            <a class="waveform__bar" href="{% url 'timeline' %}?year=2009" style="height:63.3%" aria-label="2009"></a>
+            <a class="waveform__bar" href="{% url 'timeline' %}?year=2010" style="height:89.3%" aria-label="2010"></a>
+            <a class="waveform__bar" href="{% url 'timeline' %}?year=2011" style="height:41.0%" aria-label="2011"></a>
+            <a class="waveform__bar" href="{% url 'timeline' %}?year=2012" style="height:73.8%" aria-label="2012"></a>
+            <a class="waveform__bar" href="{% url 'timeline' %}?year=2013" style="height:65.1%" aria-label="2013"></a>
+            <a class="waveform__bar" href="{% url 'timeline' %}?year=2014" style="height:63.9%" aria-label="2014"></a>
+            <a class="waveform__bar" href="{% url 'timeline' %}?year=2015" style="height:53.2%" aria-label="2015"></a>
+            <a class="waveform__bar is-active" href="{% url 'timeline' %}?year=2016" style="height:86.2%" aria-label="2016"></a>
+            <a class="waveform__bar" href="{% url 'timeline' %}?year=2017" style="height:95.2%" aria-label="2017"></a>
+            <a class="waveform__bar" href="{% url 'timeline' %}?year=2018" style="height:54.8%" aria-label="2018"></a>
+            <a class="waveform__bar" href="{% url 'timeline' %}?year=2019" style="height:71.1%" aria-label="2019"></a>
+            <a class="waveform__bar" href="{% url 'timeline' %}?year=2020" style="height:19.2%" aria-label="2020"></a>
+            <a class="waveform__bar" href="{% url 'timeline' %}?year=2021" style="height:74.3%" aria-label="2021"></a>
+            <a class="waveform__bar" href="{% url 'timeline' %}?year=2022" style="height:69.7%" aria-label="2022"></a>
+            <a class="waveform__bar" href="{% url 'timeline' %}?year=2023" style="height:99.4%" aria-label="2023"></a>
+            <a class="waveform__bar" href="{% url 'timeline' %}?year=2024" style="height:84.7%" aria-label="2024"></a>
+            <a class="waveform__bar" href="{% url 'timeline' %}?year=2025" style="height:38.5%" aria-label="2025"></a>
+            <a class="waveform__bar" href="{% url 'timeline' %}?year=2026" style="height:47.2%" aria-label="2026"></a>
           </div>
           <div class="waveform__labels">
             <span>1950</span><span>1960</span><span>1970</span><span>1980</span><span>1990</span><span>2000</span><span>2010</span><span>2020</span>
@@ -250,15 +248,14 @@
       <div class="footer__cols">
         <div class="footer__col">
           <h4>Explore</h4>
-          <a href="timeline.html">Timeline</a>
-          <a href="discover.html">Discover</a>
-          <a href="discover.html">Artists</a>
+          <a href="{% url 'timeline' %}">Timeline</a>
+          <a href="{% url 'discover' %}">Discover</a>
         </div>
         <div class="footer__col">
           <h4>Discover by</h4>
-          <a href="discover.html">Decade</a>
-          <a href="discover.html">Genre</a>
-          <a href="discover.html">Country</a>
+          <a href="{% url 'discover' %}?filter=decade">Decade</a>
+          <a href="{% url 'discover' %}?filter=genre">Genre</a>
+          <a href="{% url 'discover' %}?filter=country">Country</a>
         </div>
       </div>
     </div>
