@@ -1,0 +1,460 @@
+// ==========================================================================
+// MuSab — Timeline page styles
+// Compile: sass timeline.scss timeline.css --style=expanded
+// ==========================================================================
+
+// ---- Tokens --------------------------------------------------------------
+$bg:             #0d0d0d;
+$surface:        #161616;
+$surface-alt:    #1c1c1c;
+$glass:          rgba(255, 255, 255, 0.045);
+$glass-strong:   rgba(255, 255, 255, 0.08);
+$border:         rgba(255, 255, 255, 0.08);
+$border-strong:  rgba(255, 255, 255, 0.16);
+
+$text-primary:   #f3f1ea;
+$text-secondary: #a8a49b;
+$text-muted:     #6b6862;
+
+$accent-orange:  #ff5c39;
+$accent-violet:  #7b61ff;
+$accent-gold:    #e8b95c;
+
+$gradient-accent: linear-gradient(135deg, $accent-orange 0%, $accent-violet 100%);
+
+$font-display: 'Fraunces', Georgia, serif;
+$font-body:    'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+$font-mono:    'IBM Plex Mono', 'Courier New', monospace;
+
+$max-width: 1360px;
+$gutter:    clamp(1.25rem, 4vw, 3.5rem);
+$radius-sm: 10px;
+$radius-md: 16px;
+$radius-lg: 24px;
+$radius-pill: 999px;
+
+$ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+$t-fast: 150ms;
+$t-med:  320ms;
+$t-slow: 560ms;
+
+$shadow-sm: 0 2px 10px rgba(0, 0, 0, 0.35);
+$shadow-md: 0 12px 32px rgba(0, 0, 0, 0.45);
+$shadow-lg: 0 24px 64px rgba(0, 0, 0, 0.55);
+$shadow-glow: 0 0 40px rgba(255, 92, 57, 0.18);
+
+$bp-tablet:  768px;
+$bp-desktop: 1100px;
+
+// Placeholder cover/photo palette — swap for real images from the backend
+$cover-palette: (
+  1: linear-gradient(135deg, #ff5c39, #7b61ff),
+  2: linear-gradient(135deg, #e8b95c, #ff5c39),
+  3: linear-gradient(135deg, #7b61ff, #2ed9c3),
+  4: linear-gradient(135deg, #ff8a5c, #3d3aff),
+  5: linear-gradient(135deg, #e85c8a, #5c7bff),
+  6: linear-gradient(135deg, #5ce8b9, #7b61ff)
+);
+
+// ---- Mixins ----------------------------------------------------------
+@mixin glass($bg: $glass, $border-color: $border) {
+  background: $bg;
+  border: 1px solid $border-color;
+  backdrop-filter: blur(20px) saturate(140%);
+  -webkit-backdrop-filter: blur(20px) saturate(140%);
+}
+
+@mixin container {
+  width: 100%;
+  max-width: $max-width;
+  margin-inline: auto;
+  padding-inline: $gutter;
+}
+
+@mixin eyebrow {
+  font-family: $font-mono;
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: $text-muted;
+}
+
+@mixin gradient-text {
+  background: $gradient-accent;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+// ---- Reset -------------------------------------------------------------
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { color-scheme: dark; scroll-behavior: smooth; }
+body {
+  background: $bg;
+  color: $text-primary;
+  font-family: $font-body;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+img { max-width: 100%; display: block; }
+a { color: inherit; text-decoration: none; }
+button { font: inherit; color: inherit; background: none; border: none; cursor: pointer; }
+ul { list-style: none; }
+::selection { background: $accent-orange; color: #0d0d0d; }
+
+// ---- Type ------------------------------------------------------------
+.eyebrow { @include eyebrow; }
+.h-display { font-family: $font-display; font-weight: 600; letter-spacing: -0.02em; }
+.h-1 { @extend .h-display; font-size: clamp(2rem, 3.6vw, 3.25rem); }
+.h-3 { font-family: $font-body; font-size: 1.375rem; font-weight: 600; }
+.mono { font-family: $font-mono; }
+.gradient-text { @include gradient-text; }
+.text-secondary { color: $text-secondary; }
+.text-muted { color: $text-muted; }
+
+// ---- Navbar (shared shell — identical across pages) ---------------------
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  @include glass($bg: rgba(13, 13, 13, 0.72));
+  border-left: none; border-right: none; border-top: none;
+
+  &__inner {
+    @include container;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 72px;
+  }
+
+  &__logo {
+    font-family: $font-display;
+    font-weight: 600;
+    font-size: 1.35rem;
+    span { @include gradient-text; font-style: italic; }
+  }
+
+  &__links {
+    display: flex;
+    align-items: center;
+    gap: 2.25rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    @media (max-width: $bp-desktop) { display: none; }
+  }
+
+  &__link {
+    color: $text-secondary;
+    transition: color $t-fast $ease-out;
+    &:hover, &.is-active { color: $text-primary; }
+  }
+
+  &__actions { display: flex; align-items: center; gap: 1.1rem; }
+
+  &__icon-btn {
+    width: 38px; height: 38px;
+    display: grid; place-items: center;
+    border-radius: $radius-pill;
+    color: $text-secondary;
+    transition: all $t-fast $ease-out;
+    &:hover { color: $text-primary; background: $glass-strong; }
+    svg { width: 19px; height: 19px; }
+  }
+
+  &__avatar {
+    width: 34px; height: 34px;
+    border-radius: 50%;
+    background: $gradient-accent;
+    display: grid; place-items: center;
+    font-family: $font-mono;
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: #0d0d0d;
+  }
+
+  &__burger {
+    display: none;
+    width: 38px; height: 38px;
+    align-items: center; justify-content: center;
+    color: $text-primary;
+    @media (max-width: $bp-desktop) { display: grid; }
+  }
+}
+
+.mobile-menu {
+  position: fixed;
+  inset: 72px 0 0 0;
+  background: rgba(13, 13, 13, 0.98);
+  z-index: 99;
+  display: none;
+  flex-direction: column;
+  padding: 2rem $gutter;
+  gap: 1.75rem;
+
+  &.is-open { display: flex; }
+  a { font-family: $font-display; font-size: 1.75rem; color: $text-secondary; }
+  a.is-active, a:hover { color: $text-primary; }
+}
+
+// ---- Pills / tags --------------------------------------------------------
+.pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.4rem 0.9rem;
+  border-radius: $radius-pill;
+  background: $glass;
+  border: 1px solid $border;
+  font-family: $font-mono;
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  color: $text-secondary;
+}
+
+// ---- Album card ------------------------------------------------------
+.album-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  transition: transform $t-med $ease-out;
+
+  &:hover { transform: translateY(-6px); }
+
+  &__cover-wrap {
+    position: relative;
+    aspect-ratio: 1 / 1;
+    border-radius: $radius-md;
+    overflow: hidden;
+    border: 1px solid $border;
+    box-shadow: $shadow-sm;
+    transition: box-shadow $t-med $ease-out, border-color $t-med $ease-out;
+  }
+
+  &:hover &__cover-wrap { box-shadow: $shadow-lg; border-color: $border-strong; }
+
+  &__cover {
+    width: 100%; height: 100%;
+    // Placeholder — replace with a real <img> once the backend supplies artwork
+    transition: transform $t-slow $ease-out;
+  }
+
+  &:hover &__cover { transform: scale(1.07); }
+
+  @each $i, $grad in $cover-palette {
+    &--#{$i} .album-card__cover { background: $grad; }
+  }
+
+  &__overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(180deg, rgba(0,0,0,0) 40%, rgba(0,0,0,0.75) 100%);
+    opacity: 0;
+    transition: opacity $t-med $ease-out;
+    display: flex;
+    align-items: flex-end;
+    padding: 0.9rem;
+  }
+
+  &:hover &__overlay { opacity: 1; }
+
+  &__play {
+    width: 42px; height: 42px;
+    border-radius: 50%;
+    background: $gradient-accent;
+    display: grid; place-items: center;
+    transform: scale(0.7) translateY(6px);
+    transition: transform $t-med $ease-out;
+    box-shadow: $shadow-glow;
+    svg { width: 16px; height: 16px; fill: #0d0d0d; margin-left: 2px; }
+  }
+
+  &:hover &__play { transform: scale(1) translateY(0); }
+
+  &__title { font-weight: 600; font-size: 0.98rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  &__artist { color: $text-secondary; font-size: 0.875rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  &__meta { display: flex; align-items: center; gap: 0.5rem; margin-top: 0.35rem; font-family: $font-mono; font-size: 0.75rem; color: $text-muted; }
+  &__dot { width: 3px; height: 3px; border-radius: 50%; background: $text-muted; }
+}
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+  gap: 1.75rem 1.5rem;
+  @media (max-width: 480px) { grid-template-columns: repeat(2, 1fr); gap: 1.25rem 0.9rem; }
+}
+
+.card-row {
+  display: flex;
+  gap: 1.5rem;
+  overflow-x: auto;
+  padding-bottom: 0.5rem;
+  scroll-snap-type: x proximity;
+  .album-card, .artist-card { flex: 0 0 190px; scroll-snap-align: start; }
+}
+
+// ---- Artist card -----------------------------------------------------
+.artist-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.9rem;
+  text-align: center;
+
+  &__photo-wrap {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 1px solid $border;
+    transition: border-color $t-med $ease-out, box-shadow $t-med $ease-out, transform $t-med $ease-out;
+  }
+
+  &:hover &__photo-wrap { transform: translateY(-6px); border-color: $accent-orange; box-shadow: $shadow-glow; }
+
+  &__photo {
+    width: 100%; height: 100%;
+    transition: transform $t-slow $ease-out;
+  }
+
+  &:hover &__photo { transform: scale(1.08); }
+
+  @each $i, $grad in $cover-palette {
+    &__photo.artist-card--#{$i} { background: $grad; }
+  }
+
+  &__name { font-weight: 600; font-size: 0.95rem; }
+  &__genre { color: $text-muted; font-family: $font-mono; font-size: 0.75rem; }
+}
+
+// ---- Waveform timeline scrubber ------------------------------------------
+.waveform {
+  &__track {
+    display: flex;
+    align-items: flex-end;
+    gap: 3px;
+    height: 132px;
+    overflow-x: auto;
+    padding: 0 2px;
+    &::-webkit-scrollbar { display: none; }
+    scrollbar-width: none;
+  }
+
+  &__bar {
+    flex: 0 0 6px;
+    min-width: 6px;
+    border-radius: 3px 3px 0 0;
+    background: $surface-alt;
+    transition: background $t-fast $ease-out;
+    &:hover { background: $border-strong; }
+    &.is-active { background: $gradient-accent; box-shadow: 0 0 18px rgba(255, 92, 57, 0.45); }
+  }
+
+  &__labels {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 0.9rem;
+    font-family: $font-mono;
+    font-size: 0.75rem;
+    color: $text-muted;
+  }
+
+  &__readout {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 1.25rem;
+
+    .year { font-family: $font-display; font-size: 2.4rem; font-weight: 600; }
+  }
+
+  &__nav { display: flex; gap: 0.5rem; }
+
+  &__navbtn {
+    width: 34px; height: 34px;
+    border-radius: 50%;
+    @include glass;
+    display: grid; place-items: center;
+    color: $text-secondary;
+    transition: all $t-fast;
+    &:hover { color: $text-primary; border-color: $border-strong; }
+    svg { width: 14px; height: 14px; }
+  }
+}
+
+// ---- Timeline page layout -------------------------------------------
+.timeline-page {
+  &__header {
+    @include container;
+    padding-top: 3rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  &__scrubber {
+    position: sticky;
+    top: 72px;
+    z-index: 40;
+    background: linear-gradient(180deg, $bg 70%, rgba(13,13,13,0.85));
+    padding: 2rem 0 1.5rem;
+    border-bottom: 1px solid $border;
+  }
+
+  &__scrubber-inner { @include container; }
+  &__body { @include container; padding-top: 3rem; padding-bottom: 4rem; }
+}
+
+.year-hero {
+  margin-bottom: 3rem;
+  &__decade-label { @include eyebrow; margin-bottom: 0.5rem; }
+  &__year { font-size: clamp(3.5rem, 9vw, 7rem); line-height: 0.9; }
+  &__blurb { max-width: 42ch; color: $text-secondary; margin-top: 0.75rem; }
+}
+
+.year-events {
+  display: flex;
+  flex-direction: column;
+
+  &__item {
+    display: flex;
+    gap: 1.5rem;
+    padding: 1.15rem 0;
+    border-top: 1px solid $border;
+    &:first-child { border-top: none; }
+  }
+
+  &__month { font-family: $font-mono; font-size: 0.75rem; color: $text-muted; width: 70px; flex-shrink: 0; padding-top: 0.15rem; }
+  &__text { font-size: 0.875rem; color: $text-secondary; }
+  &__text strong { color: $text-primary; font-weight: 600; }
+}
+
+.genre-cloud { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+
+.timeline-grid {
+  display: grid;
+  grid-template-columns: 2.1fr 1fr;
+  gap: 3rem;
+  @media (max-width: $bp-desktop) { grid-template-columns: 1fr; }
+}
+
+.side-panel { display: flex; flex-direction: column; gap: 2.5rem; }
+.side-block__title { @include eyebrow; margin-bottom: 1rem; }
+
+section + section { margin-top: 3.5rem; }
+
+// ---- Footer -------------------------------------------------------------
+.footer {
+  border-top: 1px solid $border;
+  margin-top: 6rem;
+  padding: 3.5rem 0 2.25rem;
+
+  &__inner { @include container; }
+  &__bottom {
+    display: flex;
+    justify-content: space-between;
+    color: $text-muted;
+    font-size: 0.75rem;
+    font-family: $font-mono;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+}
