@@ -90,17 +90,17 @@
           <svg width="13" height="13" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 10h12M11 5l5 5-5 5"/></svg>
         </a>
       </div>
-
-      <div class="card-grid reveal">
-        <a class="album-card album-card--1" href="album.html">
-          <div class="album-card__cover-wrap">
-            <img src="{{ MEDIA_URL }}covers/Paranoid.jpg" class="album-card__cover">
-          </div>
-          <div class="album-card__title">Paranoid</div>
-          <div class="album-card__artist">Black Sabbath</div>
-          <div class="album-card__meta"><span>1970</span><span class="album-card__dot"></span><span>Heavy Metal</span></div>
-        </a>
-
+    <div class="card-grid reveal">
+        {% for album in albums %}
+            <a class="album-card album-card--1" href="album.html">
+            <div class="album-card__cover-wrap">
+                <img src="{{ MEDIA_URL }}{{ album.cover }}" class="album-card__cover">
+            </div>
+            <div class="album-card__title">{{ album.album }}</div>
+            <div class="album-card__artist">{{ album.artist }}</div>
+            <div class="album-card__meta"><span>{{ album.release_year }}</span><span class="album-card__dot"></span><span>{{ album.genre }}</span></div>
+            </a>
+        {% endfor %}
       </div>
     </div>
   </section>
